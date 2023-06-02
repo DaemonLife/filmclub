@@ -1,14 +1,15 @@
 import csv
 import random
 
-cinephiles_today = ['Кирилл', 'Настя Ш']
+cinephiles_today = ['Кирилл', 'Эд', "Рита", "Настя С"]
 all_films_for_watching = []
 N = 5 # number of random films
 
 class Film:
-    def __init__(self, name, year):
+    def __init__(self, name, year, viewed=None):
         self.name = name
         self.year = year
+        self.viewed = viewed
 
 with open('filmclub.csv') as table:
     reader = csv.DictReader(table)
@@ -30,17 +31,18 @@ with open('filmclub.csv') as table:
                 person_wathed.append(person)
 
         if len(person_wathed) == 0: # no one from cinephiles_today wathed film  
-            print('-------------------------------------------')
-            print('|', title, '-', year)
-            all_films_for_watching.append(Film(title, year))
+            # print('-------------------------------------------')
+            # print('|', title, '-', year)
+            all_films_for_watching.append(Film(title, year, wathed))
         else:
             pass
-            print('-------------------------------------------')
-            print('|', title, '-', year, '- ПРОПУСК.')
+            # print('-------------------------------------------')
+            # print('|', title, '-', year, '- ПРОПУСК.')
             for person in person_wathed:
-                print('|', person, 'уже смотрел(а) этот фильм.')
+               pass
+               # print('|', person, 'уже смотрел(а) этот фильм.')
 
-print('-------------------------------------------')
+# print('-------------------------------------------')
 
 random_films_for_watching = []
 
@@ -57,13 +59,21 @@ while len(random_films_for_watching) < N:
         random_films_for_watching.append(all_films_for_watching[r])
 
 # printing result
-print("\nСписок фильмов для просмотра:\n")
+print('\n-------------------------------------------')
+print("       Список фильмов для просмотра       ")
+print('-------------------------------------------')
 i = 1
 for line in random_films_for_watching:
-    print(f"{i}:", line.name, "-", line.year)
+    if line.viewed != "":
+        print(f"{i}:", line.name, "-", line.year, f'(Для справки, этот фильм видели: {line.viewed})')
+    else:
+        print(f"{i}:", line.name, "-", line.year)
     i += 1
-print("\nИх не смотрели:")
+
+print('\n-------------------------------------------')
+print("  Исходя из таблицы, их точно не смотрели")
+print('-------------------------------------------')
 
 for line in cinephiles_today:
-    print(line)
+    print('-', line)
 print()
